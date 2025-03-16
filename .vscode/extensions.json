@@ -1,0 +1,10 @@
+{
+    "recommendations": [
+        "timonwong.shellcheck",
+        "mkhl.shfmt",
+        "EditorConfig.EditorConfig",
+        "jnoortheen.nix-ide",
+        "ms-azuretools.vscode-docker",
+        "github.vscode-github-actions"
+    ]
+}

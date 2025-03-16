@@ -1,0 +1,5 @@
+--action-offline-mode
+--pull=false
+--var ACT=true
+--artifact-server-path $TMP/act/artifacts
+--matrix runner:ubuntu-latest

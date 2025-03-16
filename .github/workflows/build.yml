@@ -1,0 +1,60 @@
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+env:
+  ACT: 'false'
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    outputs:
+      phpy-ref: ${{ env.ACT && '82b2e02c96a9783f558b353085cde1f1c5522bae' || steps.phpy.outputs.ref }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - run: apt update
+      - run: apt install -y shfmt shellcheck
+
+      - run: shfmt -d .
+      - run: shellcheck ./.envrc
+
+      - id: phpy
+        name: Declare and verify phpy ref
+        uses: actions/checkout@v4
+        with:
+          repository: swoole/phpy
+          ref: 82b2e02c96a9783f558b353085cde1f1c5522bae
+          token: ${{ github.token }}
+
+  test:
+    needs: [check]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        libc: [glibc, musl]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+
+      - uses: docker/bake-action@v6
+        with:
+          source: .
+          targets: build
+          set: |
+            *.args.PHPY_REF=${{ needs.check.outputs.phpy-ref }}
+        env:
+          LIBC: ${{ matrix.libc }}
+
+      - uses: docker/bake-action@v6
+        with:
+          source: .
+          targets: test
+          set: |
+            *.args.PHPY_REF=${{ needs.check.outputs.phpy-ref }}
+        env:
+          LIBC: ${{ matrix.libc }}

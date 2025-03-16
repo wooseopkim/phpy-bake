@@ -1,0 +1,28 @@
+{
+    "[nix]": {
+        "editor.defaultFormatter": "jnoortheen.nix-ide"
+    },
+    "[python]": {
+        "editor.defaultFormatter": "charliermarsh.ruff"
+    },
+    "[shellscript]": {
+        "editor.defaultFormatter": "mkhl.shfmt"
+    },
+    "editor.codeActionsOnSave": {
+        "source": "explicit",
+        "source.sort.json": "never"
+    },
+    "editor.defaultFormatter": "EditorConfig.EditorConfig",
+    "editor.formatOnSave": true,
+    "nix.enableLanguageServer": true,
+    "nix.serverSettings": {
+        "nil": {
+            "formatting": {
+                "command": ["nixfmt"]
+            },
+        }
+    },
+    "python.languageServer": "None",
+    "python.defaultInterpreterPath": ".venv/bin/python",
+    "basedpyright.analysis.diagnosticMode": "workspace"
+}
