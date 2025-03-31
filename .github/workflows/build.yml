@@ -17,8 +17,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - run: apt update
-      - run: apt install -y shfmt shellcheck
+      - run: sudo apt update
+      - run: sudo apt install -y shfmt shellcheck
 
       - run: shfmt -d .
       - run: shellcheck ./.envrc
